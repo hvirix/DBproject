@@ -1,81 +1,93 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const List = require('./models/List');
+const Item = require('./models/Item');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 mongoose.connect('mongodb://localhost:27017/shop_db')
-    .then(() => console.log('✅ MongoDB Connected'))
-    .catch(err => console.error(err));
+    .then(() => console.log('MongoDB Connected'))
+    .catch(err => console.error('MongoDB Error:', err));
 
-// --- 1. Схема для СПИСКІВ (Нове!) ---
-const ListSchema = new mongoose.Schema({
-    title: String, // Назва списку (напр. "Покупки на ДР")
-    createdAt: { type: Date, default: Date.now }
-});
-const List = mongoose.model('List', ListSchema);
+// --- API списків ---
 
-// --- 2. Схема для ТОВАРІВ (Оновлена) ---
-const ItemSchema = new mongoose.Schema({
-    name: String,
-    category: String,
-    listId: String // Важливо: прив'язка до конкретного списку
-});
-const Item = mongoose.model('Item', ItemSchema);
-
-// --- API для СПИСКІВ ---
-
-// Отримати всі списки
 app.get('/lists', async (req, res) => {
-    const lists = await List.find().sort({ createdAt: -1 });
-    res.json(lists);
+    try {
+        const lists = await List.find().sort({ createdAt: -1 });
+        res.json(lists);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
 });
 
-// Створити новий список
 app.post('/lists', async (req, res) => {
-    const newList = new List(req.body);
-    await newList.save();
-    res.json(newList);
+    try {
+        const newList = new List(req.body);
+        await newList.save();
+        res.json(newList);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
 });
 
-// Видалити список (і всі товари в ньому)
 app.delete('/lists/:id', async (req, res) => {
-    const listId = req.params.id;
-    await List.findByIdAndDelete(listId);
-    await Item.deleteMany({ listId: listId }); // Видаляємо товари цього списку
-    res.json({ message: 'List deleted' });
+    try {
+        const listId = req.params.id;
+        await List.findByIdAndDelete(listId);
+        await Item.deleteMany({ listId: listId });
+        res.json({ message: 'List deleted' });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
 });
 
-// --- API для ТОВАРІВ ---
+// --- API товарів ---
 
-// Отримати товари ТІЛЬКИ конкретного списку
 app.get('/items', async (req, res) => {
-    const { listId, category, search } = req.query;
-    let query = { listId }; // Фільтруємо по ID списку
+    try {
+        const { listId, search } = req.query;
+        let query = { listId };
 
-    if (category && category !== 'All') query.category = category;
-    if (search) query.name = { $regex: search, $options: 'i' };
+        if (search) {
+            query.name = { $regex: search, $options: 'i' };
+        }
 
-    const items = await Item.find(query);
-    res.json(items);
+        const items = await Item.find(query);
+        res.json(items);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
 });
 
 app.post('/items', async (req, res) => {
-    const newItem = new Item(req.body);
-    await newItem.save();
-    res.json(newItem);
+    try {
+        const newItem = new Item(req.body);
+        await newItem.save();
+        res.json(newItem);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
 });
 
 app.put('/items/:id', async (req, res) => {
-    const updated = await Item.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(updated);
+    try {
+        const updated = await Item.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json(updated);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
 });
 
 app.delete('/items/:id', async (req, res) => {
-    await Item.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Deleted' });
+    try {
+        await Item.findByIdAndDelete(req.params.id);
+        res.json({ message: 'Item deleted' });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
 });
 
-app.listen(5000, () => console.log('Server running on 5000'));
+app.listen(5000, () => console.log('Server running on port 5000'));

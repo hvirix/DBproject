@@ -1,42 +1,213 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #f4f6f8;
+  color: #1f2937;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 60px;
+  min-height: 100vh;
+}
+
+.main-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 650px;
+  padding: 40px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+  height: fit-content;
+}
+
+/* --- Заголовки --- */
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.list-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.back-btn {
+  background: white;
+  border: 1px solid #d1d5db;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+/* --- Інпути --- */
+.input-group {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.form-control {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+  color: #1f2937;
+}
+
+.form-control:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.input-name { flex-grow: 1; }
+.select-category { width: 140px; cursor: pointer; background-color: #fff; }
+
+.btn-primary {
+  background-color: #111827;
+  color: white;
+  border: none;
+  padding: 0 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #374151;
+}
+
+/* --- ТАБЛИЦЯ (ЗАЛІЗНЕ ВИРІВНЮВАННЯ) --- */
+
+.table-header {
+  display: grid;
+  /* 1fr   = Назва (займає все вільне місце)
+     150px = Категорія (ФІКСОВАНА ШИРИНА)
+     100px = Дії (ФІКСОВАНА ШИРИНА)
+  */
+  grid-template-columns: 1fr 150px 100px;
+  padding: 0 10px 12px 10px;
+  border-bottom: 2px solid #e5e7eb;
+  color: #6b7280;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Заголовок "КАТЕГОРІЯ" - Строго по центру */
+.table-header span:nth-child(2) {
   text-align: center;
+  padding: 0;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Заголовок "ДІЇ" - Строго вправо */
+.table-header span:nth-child(3) {
+  text-align: right;
+  padding-right: 5px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.items-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.item-row {
+  display: grid;
+  /* Ті самі фіксовані розміри, щоб сітка збігалася ідеально */
+  grid-template-columns: 1fr 150px 100px;
+  align-items: center;
+  padding: 16px 10px;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.1s;
 }
 
-.card {
-  padding: 2em;
+.item-row:hover {
+  background-color: #fafafa;
 }
 
-.read-the-docs {
-  color: #888;
+.item-text {
+  font-size: 1rem;
+  color: #1f2937;
+  font-weight: 500;
+  /* Якщо текст довгий - обрізаємо трьома крапками */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+/* Плашка категорії - Строго по центру */
+.category-badge {
+  justify-self: center; /* Центруємо сам елемент у клітинці */
+
+  text-align: center;
+  font-size: 0.85rem;
+  color: #4b5563;
+  background-color: #f3f4f6;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 500;
+  border: 1px solid #e5e7eb;
+  margin: 0;
+  width: 100px; /* Фіксована ширина самої плашки, щоб вони були однакові */
+}
+
+.actions-cell {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-right: 5px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  font-size: 1.1rem;
+  padding: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.icon-btn.edit:hover { color: #2563eb; transform: scale(1.1); }
+.icon-btn.delete:hover { color: #dc2626; transform: scale(1.1); }
+
+/* --- СПИСКИ --- */
+.lists-grid { display: flex; flex-direction: column; gap: 12px; }
+
+.list-item-card {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 20px; background: #fff; border: 1px solid #e5e7eb;
+  border-radius: 8px; cursor: pointer; transition: all 0.2s;
+}
+
+.list-item-card:hover { border-color: #2563eb; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+.header-title { font-size: 1.8rem; font-weight: 800; color: #111827; text-align: center; margin-bottom: 30px; }
+.empty-state { text-align: center; color: #9ca3af; margin-top: 40px; }
