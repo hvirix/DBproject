@@ -44,7 +44,7 @@ app.delete('/lists/:id', async (req, res) => {
     }
 });
 
-// --- API товарів ---
+//API товарів
 
 app.get('/items', async (req, res) => {
     try {

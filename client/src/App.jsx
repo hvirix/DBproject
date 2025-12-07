@@ -38,7 +38,7 @@ function App() {
 
     const deleteList = async (e, id) => {
         e.stopPropagation();
-        // ПОПЕРЕДЖЕННЯ ПРО ВИДАЛЕННЯ СПИСКУ
+        // попередження про видалення списку
         if (window.confirm("Видалити цей список разом з товарами?")) {
             await fetch(`http://localhost:5000/lists/${id}`, { method: 'DELETE' });
             fetchLists();
@@ -70,7 +70,7 @@ function App() {
     };
 
     const deleteItem = async (id) => {
-        // ОСЬ ТУТ ПОПЕРЕДЖЕННЯ ПРО ВИДАЛЕННЯ ТОВАРУ
+        // попередження про видалення товару
         if (window.confirm("Ви точно хочете видалити цей запис?")) {
             await fetch(`http://localhost:5000/items/${id}`, { method: 'DELETE' });
             fetchItems();
