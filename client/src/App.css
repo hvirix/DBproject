@@ -26,7 +26,7 @@ body {
   height: fit-content;
 }
 
-/* Заголовки */
+/* --- Заголовки сторінки --- */
 .header-row {
   display: flex;
   justify-content: space-between;
@@ -60,7 +60,7 @@ body {
   border-color: #9ca3af;
 }
 
-/* Інпути */
+/* --- Інпути --- */
 .input-group {
   display: flex;
   gap: 12px;
@@ -100,10 +100,11 @@ body {
   background-color: #374151;
 }
 
-/* ТАБЛИЦЯ */
+/* --- ТАБЛИЦЯ (ЗАЛІЗОБЕТОННЕ ЦЕНТРУВАННЯ) --- */
 
 .table-header {
   display: grid;
+  /* Пропорції колонок: Назва (auto) | Категорія (150px) | Дії (100px) */
   grid-template-columns: 1fr 150px 100px;
   padding: 0 10px 12px 10px;
   border-bottom: 2px solid #e5e7eb;
@@ -114,13 +115,16 @@ body {
   letter-spacing: 0.05em;
 }
 
-/* "категорія" */
+/* 1. Заголовок "КАТЕГОРІЯ" - Примусово в центр через Flexbox */
 .table-header span:nth-child(2) {
-  text-align: center;
+  display: flex;           /* Вмикаємо Flexbox */
+  justify-content: center; /* Центруємо по горизонталі */
+  align-items: center;     /* Центруємо по вертикалі */
+  width: 100%;             /* На всю ширину колонки */
   padding: 0;
 }
 
-/* "дії" */
+/* Заголовок "ДІЇ" - вправо */
 .table-header span:nth-child(3) {
   text-align: right;
   padding-right: 5px;
@@ -134,7 +138,7 @@ body {
 
 .item-row {
   display: grid;
-  grid-template-columns: 1fr 150px 100px;
+  grid-template-columns: 1fr 150px 100px; /* Ті самі пропорції */
   align-items: center;
   padding: 16px 10px;
   border-bottom: 1px solid #f3f4f6;
@@ -154,18 +158,25 @@ body {
   text-overflow: ellipsis;
 }
 
+/* 2. Плашка категорії - Примусово в центр */
 .category-badge {
-  justify-self: center;
-  text-align: center;
+  /* Центруємо саму плашку в колонці */
+  margin-left: auto;
+  margin-right: auto;
+
+  /* Центруємо текст всередині плашки */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   font-size: 0.85rem;
   color: #4b5563;
   background-color: #f3f4f6;
-  padding: 6px 12px;
+  padding: 6px 0; /* Прибрав бокові відступи, бо ширина фіксована */
   border-radius: 6px;
   font-weight: 500;
   border: 1px solid #e5e7eb;
-  margin: 0;
-  width: 100px;
+  width: 120px; /* Фіксована ширина плашки (трохи менша за колонку 150px) */
 }
 
 .actions-cell {
@@ -190,7 +201,7 @@ body {
 .icon-btn.edit:hover { color: #2563eb; transform: scale(1.1); }
 .icon-btn.delete:hover { color: #dc2626; transform: scale(1.1); }
 
-/* списки */
+/* --- СПИСКИ --- */
 .lists-grid { display: flex; flex-direction: column; gap: 12px; }
 
 .list-item-card {
